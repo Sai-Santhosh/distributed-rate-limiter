@@ -30,23 +30,24 @@ This repo contains:
 ```mermaid
 flowchart LR
   subgraph Client["Service Instance / Client Process"]
-    W[Workers / Requests] --> L[Distributed Rate Limiter]
-    L --> Q[Bounded Wait Queue\n(cancellation-aware)]
-    L --> LP[Local Permit Cache]
-    L --> BG[Background Lease Loop]
-    BG -->|Try acquire / Release| O[(Orleans Runtime)]
+    W["Workers / Requests"] --> L["Distributed Rate Limiter"]
+    L --> Q["Bounded Wait Queue<br/>(cancellation-aware)"]
+    L --> LP["Local Permit Cache"]
+    L --> BG["Background Lease Loop"]
+    BG -->|Try acquire / Release| O["Orleans Runtime"]
   end
 
   subgraph Cluster["Orleans Cluster"]
-    O --> C[Coordinator Grain]
-    C --> GP[(Global Permit Pool)]
-    C --> CS[(Client State Map)]
-    C --> PR[(Pending Request Queue)]
-    C --> T[Timers:\nIdle purge + lease refresh]
+    O --> C["Coordinator Grain"]
+    C --> GP["Global Permit Pool"]
+    C --> CS["Client State Map"]
+    C --> PR["Pending Request Queue"]
+    C --> T["Timers<br/>Idle purge + lease refresh"]
   end
 
   C -->|Notify permits available| L
   L -->|Dispose lease returns permits| BG
+
 ```
 
 ### Request flow (sequence)
@@ -187,40 +188,3 @@ Distributed calls can fail and be retried. Sequence numbers make acquire/release
 
 ---
 
-## Observability (recommended additions)
-
-The library already logs unexpected exceptions from the background loop. For production-grade usage, consider adding:
-
-### Telemetry (metrics + traces)
-Track:
-- allowed vs throttled decisions
-- queue depth and wait time
-- coordinator call latency
-- permits available / in-use
-- error counts
-
-### Health checks (liveness + readiness)
-Expose:
-- **Liveness**: process is running
-- **Readiness**: coordinator is reachable and the limiter is able to make progress
-
-> If you add telemetry + health checks, this becomes a strong “live service operations” story for backend/cloud roles.
-
----
-
-## Roadmap ideas (small, high-value)
-- Add a minimal **ASP.NET** sample to gate an HTTP endpoint behind the limiter
-- Add **OpenTelemetry** metrics/tracing
-- Add **HealthChecks** endpoints for readiness/liveness
-- Add load tests and publish p95/p99 latency numbers
-- Add CI (GitHub Actions): build + test + lint
-
----
-
-## License
-Add a `LICENSE` file if you plan to make this public/open-source.
-
----
-
-## Resume-ready one-liner
-“Distributed rate limiter on Orleans enforcing a shared global permit budget across scaled clients with bounded backpressure, retry-safe coordination, and idle-client reclamation for reliability.”
