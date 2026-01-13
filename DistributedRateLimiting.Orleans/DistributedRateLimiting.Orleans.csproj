@@ -1,24 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <PackageId>DistributedRateLimiting.Orleans</PackageId>
+    <Version>1.0.0</Version>
+    <Description>A distributed, fault-tolerant rate limiter built on Microsoft Orleans that enforces a single global permit budget across many clients/instances.</Description>
+    <PackageTags>rate-limiting;orleans;distributed-systems;throttling;concurrency</PackageTags>
+    <PackageProjectUrl>https://github.com/YOUR_USERNAME/distributed-rate-limiter</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-preview.5.22301.12" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.5.22301.12" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0-preview.5.22301.12" />
-    <PackageReference Include="Microsoft.Orleans.Core" Version="4.0.0-preview1" />
-    <PackageReference Include="Microsoft.Orleans.Sdk" Version="4.0.0-preview1">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Orleans.Core" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Sdk" Version="8.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="4.0.0-preview1" />
-    <PackageReference Include="System.CodeDom" Version="7.0.0-preview.5.22301.12" />
-    <PackageReference Include="System.Threading.RateLimiting" Version="7.0.0-preview.5.22301.12" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="8.2.0" />
+    <PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
